@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm ls *)",
+      "WebFetch(domain:auth0.com)",
+      "WebFetch(domain:auth0.github.io)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gh api *)",
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "WebFetch(domain:unpkg.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm install *)",
+      "Bash(node -e \"require\\('./lib/oidc'\\)\")",
+      "Bash(npm_config_cache=/tmp/npm-cache npm install)",
+      "Bash(node server.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3010/)",
+      "Bash(disown)",
+      "Bash(curl -v http://localhost:3010/)",
+      "Bash(xargs kill -9)",
+      "Bash(curl -s -w \"\\\\nHTTP %{http_code}\" http://localhost:3010/)",
+      "Bash(node -e ' *)",
+      "Bash(curl -s -o /dev/null -w \"/ -> %{http_code}\\\\n\" http://localhost:3010/)",
+      "Bash(curl -s -o /dev/null -w \"/login -> %{http_code}\\\\n\" http://localhost:3010/login)",
+      "Bash(cat /tmp/server.log)",
+      "Bash(pkill -f \"node server.js\")",
+      "Bash(pkill -f \"node_modules/.bin\")"
+    ]
+  }
+}

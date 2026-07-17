@@ -1,16 +1,36 @@
 <%- include('partials/header') -%>
 
-  <h1 class="text-4xl mb-4">Welcome <%= user.nickname %></h1>
+<h1 class="text-4xl mb-4">Welcome <%= user.nickname %></h1>
 
-  <% if (user.picture) { %>
-    <img class="block py-3" src="<%= user.picture %>" width="300">
-  <% } %>
-  
-  <p class="py-3">
-    This is the content of <code class="bg-gray-200">req.user</code>.<br>
-    <strong>Note:</strong> <code class="bg-gray-200">_raw</code> and <code class="bg-gray-200">_json</code> properties have been omitted.
+<% if (user.picture) { %>
+  <img class="block py-3" src="<%= user.picture %>" width="300">
+<% } %>
+
+<div class="mb-6">
+  <h2 class="text-2xl font-bold mb-2">DPoP Status</h2>
+  <p class="py-1">
+    Token type: <code class="bg-gray-200 px-1"><%= tokenType %></code>
+    <% if (tokenType && tokenType.toLowerCase() === 'dpop') { %>
+      <span class="ml-2 text-green-700 font-semibold">&#10003; Sender-constrained via DPoP</span>
+    <% } else { %>
+      <span class="ml-2 text-yellow-700">Bearer token &mdash; enable DPoP on your Auth0 application to activate sender constraining</span>
+    <% } %>
   </p>
+  <% if (accessTokenCnf) { %>
+    <p class="py-1 mt-2">Access token <code class="bg-gray-200 px-1">cnf</code> claim (public key thumbprint bound to this token):</p>
+    <pre class="block bg-gray-300 p-4 text-sm overflow-scroll mt-1"><%= accessTokenCnf %></pre>
+  <% } %>
+</div>
 
-  <pre class="block bg-gray-300 p-4 text-sm overflow-scroll"><%= userProfile %></pre>
+<h2 class="text-2xl font-bold mb-2">User Profile</h2>
+<p class="py-2">Fetched from the userinfo endpoint
+  <% if (tokenType && tokenType.toLowerCase() === 'dpop') { %>
+    using a DPoP-bound request (<code class="bg-gray-200 px-1">Authorization: DPoP</code> + fresh DPoP proof).
+  <% } else { %>
+    using a standard Bearer request.
+  <% } %>
+</p>
+
+<pre class="block bg-gray-300 p-4 text-sm overflow-scroll"><%= userProfile %></pre>
 
 <%- include('partials/footer') -%>

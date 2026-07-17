@@ -1,3 +1,5 @@
 .env
+.env-kohlsDev
+.env-dev-89r2q46d
 node_modules/
 .DS_Store

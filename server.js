@@ -1,6 +1,9 @@
 const dotenv = require('dotenv');
+const crypto = require('crypto');
 const express = require('express');
 const http = require('http');
+const favicon = require('serve-favicon');
+const cors = require('cors');
 const logger = require('morgan');
 const path = require('path');
 const router = require('./routes/index');
@@ -10,16 +13,32 @@ dotenv.load();
 
 const app = express();
 
+app.use(cors()); // Allows all origins
+app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-
+const generateNonce = () => crypto.randomBytes(16).toString('hex');
 const config = {
   authRequired: false,
-  auth0Logout: true
+  auth0Logout: true,
+  routes: {
+    login: false,
+    logout: false
+  },
+  authorizationParams: {
+    response_type: 'code',
+    scope: 'openid profile email',
+    correlation_id: generateNonce(),
+    ui_locales: 'en'
+  },
+  
+  clientSecret: process.env.SECRET,
+  baseURL: process.env.BASE_URL
 };
 
 const port = process.env.PORT || 3000;
